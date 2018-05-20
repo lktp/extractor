@@ -22,7 +22,10 @@ import sys
 #This functions who purpose in ife is to figure out what the extenision of the file is.  right now it pretty much
 #has to be hard coded in...I wanna find another way to do that, Just havent gotten around to it yet.
 def get_extensions(header):
-   headers = [{'HEADER': 'd0cf', 'EXTENSION': 'doc'}]
+   headers = [{'HEADER': 'd0cf', 'EXTENSION': 'doc'},
+              {'HEADER': '4d5a', 'EXTENSION': 'exe'},
+              {'HEADER': '504b0304', 'EXTENSION': 'zip'},
+              {'HEADER': '504b0506', 'EXTENSION': 'zip'}]
    for i in headers:
       if str(header).strip() == str(i['HEADER']).strip():
          return i['EXTENSION']
