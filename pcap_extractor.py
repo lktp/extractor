@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 ###############################################################################
 #
 #                       name: pcap_extractor.py
@@ -16,7 +18,7 @@
 #imports needed, (binascii to play with hex, and scappy to play with the packets
 from scapy.all import *
 from binascii import unhexlify, hexlify 
-
+import sys
 #This functions who purpose in ife is to figure out what the extenision of the file is.  right now it pretty much
 #has to be hard coded in...I wanna find another way to do that, Just havent gotten around to it yet.
 def get_extensions(header):
@@ -47,7 +49,7 @@ def parse_pcap(packet_list):
          #checks all sessions for matches
          for session in sessions:   
             #matches if both IPs and both ports are in the packets
-            if ip1 in session.values() and ip2 in session.values() and port1 in session.values() and port2 in session.values():
+            if i['IP'].src in session.values() and i['IP'].dst in session.values() and i['TCP'].sport in session.values() and i['TCP'].dport in session.values():
                session['PACKETS'].append(i)
       	       session['CONVO_SIZE'] = session['CONVO_SIZE'] + i['IP'].len
                found = True
@@ -109,7 +111,11 @@ def parse_sessions(sessions):
 
 #Control function, dosent do much besides asking a user what session they want to try...should probably put that in a while loop.
 if __name__ == '__main__':
-   test = rdpcap('dridex.pcap')
+   if len(sys.argv) < 2:
+      print "usage: extractor <pcap_file>"
+      sys.exit()
+   pcap_file = sys.argv[1]
+   test = rdpcap(pcap_file)
    sessions = parse_pcap(test)
    count = 1
    for i in sessions:
@@ -121,6 +127,6 @@ if __name__ == '__main__':
    if input.lower() == "all":
       parse_sessions(sessions)
    else:
-      small_list = ''
+      small_list = []
       small_list.append(sessions[int(input) -1])
       parse_sessions(small_list)     
