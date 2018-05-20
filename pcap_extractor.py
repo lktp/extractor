@@ -8,11 +8,8 @@
 #                       purpose: TO autmatically extract files from pcap
 #                       TODO: put more analysis into this so it can try to figure out if the file is somewhere
 #                       Bugs: None at this time
-#                       Dependiences: Scappy
-#
-#
-#
-#
+#                       Dependiences: Scapy
+#                                       (pip install scapy)
 ################################################################################
 
 #imports needed, (binascii to play with hex, and scappy to play with the packets
